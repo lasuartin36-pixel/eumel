@@ -35,6 +35,25 @@
   #bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   #bg span { position: absolute; color: var(--accent); opacity: .18; will-change: transform; }
 
+  /* Intro: Vollbild-Foto, das beim Scrollen langsam verblasst */
+  .intro {
+    position: fixed; inset: 0; z-index: 5; pointer-events: none; will-change: opacity;
+    background: #0b0610 url("fotos/anfang.jpg") center / cover no-repeat;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    text-align: center; color: #fff; padding: 0 16px 14vh;
+  }
+  .intro::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,0) 35%, rgba(60,0,40,.75));
+  }
+  .intro > * { position: relative; }
+  .intro h2 {
+    color: #fff; margin: 0; font-size: clamp(2.6rem, 12vw, 4.6rem); text-shadow: 0 2px 24px rgba(0,0,0,.6);
+  }
+  .intro p { margin: 6px 0 0; opacity: .85; }
+  .intro .hint { color: #fff; margin-top: 28px; }
+  .intro-space { height: 100vh; }
+
   /* Hero */
   .hero {
     min-height: 100vh; display: flex; flex-direction: column; align-items: center;
@@ -124,6 +143,8 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .reveal { opacity: 1; transform: none; transition: none; }
+    .intro { position: relative; height: 100vh; }
+    .intro-space { display: none; }
     .hero h1 em, .hint { animation: none; }
   }
 </style>
@@ -132,7 +153,14 @@
 <div id="bar"></div>
 <div id="bg"></div>
 
+<div class="intro" id="intro">
+  <h2>Der Anfang</h2>
+  <p>22. Mai 2026</p>
+  <div class="hint">Scroll runter ↓</div>
+</div>
+
 <main>
+  <div class="intro-space" id="space"></div>
 
   <!-- ===== ANPASSEN: Name ===== -->
   <header class="hero" id="hero">
@@ -262,6 +290,7 @@ Zwischen Messern und Blitzen bist du die Sonne
   const timeline = document.getElementById("timeline");
   const line = document.getElementById("line");
   const pics = [...document.querySelectorAll("#stack .pic")];
+  const intro = document.getElementById("intro");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function onScroll() {
@@ -270,9 +299,14 @@ Zwischen Messern und Blitzen bist du die Sonne
     bar.style.width = (max > 0 ? y / max * 100 : 0) + "%";
     if (reduce) return;
 
-    // Hero: wegblenden und leicht nach oben
-    const p = Math.min(1, y / vh);
-    hero.style.transform = `translateY(${y * 0.35}px) scale(${1 - p * 0.1})`;
+    // Intro-Foto verblasst langsam, während die Seite hochscrollt
+    intro.style.opacity = Math.max(0, 1 - y / (vh * 0.9));
+    intro.style.visibility = y > vh ? "hidden" : "visible";
+
+    // Hero: wegblenden und leicht nach oben (ab dem Ende des Intros)
+    const hy = Math.max(0, y - vh);
+    const p = Math.min(1, hy / vh);
+    hero.style.transform = `translateY(${hy * 0.35}px) scale(${1 - p * 0.1})`;
     hero.style.opacity = 1 - p * 1.1;
 
     // Herzen im Hintergrund bewegen sich unterschiedlich schnell
