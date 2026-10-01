@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Für dich ♥</title>
+<title>Für Emi ♥</title>
 <style>
   /* ===== ANPASSEN: Farben ===== */
   :root {
-    --bg: #fff5f7;
+    --bg: #fff0f7;
     --card: #ffffff;
-    --accent: #e8577d;
-    --accent-soft: #fde1e8;
+    --accent: #ec4899;
+    --accent-soft: #fce7f3;
     --text: #3a2a30;
     --muted: #8a7078;
   }
@@ -31,13 +31,13 @@
   }
   .counter div {
     background: var(--card); border-radius: 16px; padding: 14px 18px; min-width: 76px;
-    box-shadow: 0 4px 16px rgba(232, 87, 125, .12);
+    box-shadow: 0 4px 16px rgba(236, 72, 153, .12);
   }
   .counter strong { display: block; font-size: 1.8rem; color: var(--accent); }
   .counter span { font-size: .8rem; color: var(--muted); }
   .memory {
     background: var(--card); border-radius: 18px; padding: 20px; margin-bottom: 20px;
-    box-shadow: 0 4px 16px rgba(232, 87, 125, .1);
+    box-shadow: 0 4px 16px rgba(236, 72, 153, .1);
   }
   .memory h3 { margin: 0 0 4px; color: var(--accent); font-size: 1.1rem; }
   .memory time { font-size: .8rem; color: var(--muted); }
@@ -50,7 +50,7 @@
   .photo img { width: 100%; height: 100%; object-fit: cover; }
   .letter {
     background: var(--card); border-radius: 18px; padding: 28px 24px; text-align: center;
-    box-shadow: 0 4px 16px rgba(232, 87, 125, .1);
+    box-shadow: 0 4px 16px rgba(236, 72, 153, .1);
   }
   button {
     margin-top: 16px; background: var(--accent); color: #fff; border: 0; border-radius: 999px;
@@ -70,8 +70,8 @@
 
   <!-- ===== ANPASSEN: Name und Datum ===== -->
   <section class="hero">
-    <h1>Für dich, [Name]</h1>
-    <p>Zwei Monate mit dir</p>
+    <h1>Für dich, Emi</h1>
+    <p>Zwei Monate mit dir, Emelie</p>
     <div class="counter" id="counter"></div>
   </section>
 
@@ -113,13 +113,13 @@
     </div>
   </section>
 
-  <footer>Gemacht mit ♥</footer>
+  <footer>Gemacht mit ♥ von Artin</footer>
 </main>
 <div class="hearts" id="hearts"></div>
 
 <script>
   // ===== ANPASSEN: Datum, seit dem ihr zusammen seid (JJJJ-MM-TT) =====
-  const since = new Date("2026-08-01T00:00:00");
+  const since = new Date("2026-07-31T00:00:00");
 
   const counter = document.getElementById("counter");
   function tick() {
