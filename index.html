@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Für dich ♥</title>
+<style>
+  /* ===== ANPASSEN: Farben ===== */
+  :root {
+    --bg: #fff5f7;
+    --card: #ffffff;
+    --accent: #e8577d;
+    --accent-soft: #fde1e8;
+    --text: #3a2a30;
+    --muted: #8a7078;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Georgia, "Times New Roman", serif; line-height: 1.6;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 0 16px 64px; }
+  section { padding: 56px 0 8px; }
+  h1, h2 { font-weight: normal; text-align: center; }
+  h1 { font-size: clamp(2.2rem, 8vw, 3.4rem); color: var(--accent); margin: 0 0 8px; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 0 0 24px; }
+  .hero { text-align: center; padding-top: 72px; }
+  .hero p { color: var(--muted); margin: 0; }
+  .counter {
+    display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .counter div {
+    background: var(--card); border-radius: 16px; padding: 14px 18px; min-width: 76px;
+    box-shadow: 0 4px 16px rgba(232, 87, 125, .12);
+  }
+  .counter strong { display: block; font-size: 1.8rem; color: var(--accent); }
+  .counter span { font-size: .8rem; color: var(--muted); }
+  .memory {
+    background: var(--card); border-radius: 18px; padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(232, 87, 125, .1);
+  }
+  .memory h3 { margin: 0 0 4px; color: var(--accent); font-size: 1.1rem; }
+  .memory time { font-size: .8rem; color: var(--muted); }
+  .memory p { margin: 10px 0 0; }
+  .photo {
+    margin-top: 14px; aspect-ratio: 4/3; border-radius: 12px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; color: var(--muted);
+    font-size: .9rem; overflow: hidden;
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .letter {
+    background: var(--card); border-radius: 18px; padding: 28px 24px; text-align: center;
+    box-shadow: 0 4px 16px rgba(232, 87, 125, .1);
+  }
+  button {
+    margin-top: 16px; background: var(--accent); color: #fff; border: 0; border-radius: 999px;
+    padding: 12px 24px; font: inherit; cursor: pointer;
+  }
+  .hidden { display: none; }
+  .hearts { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .hearts span {
+    position: absolute; bottom: -30px; animation: up 2.6s ease-out forwards; color: var(--accent);
+  }
+  @keyframes up { to { transform: translateY(-110vh); opacity: 0; } }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 48px; }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ===== ANPASSEN: Name und Datum ===== -->
+  <section class="hero">
+    <h1>Für dich, [Name]</h1>
+    <p>Zwei Monate mit dir</p>
+    <div class="counter" id="counter"></div>
+  </section>
+
+  <!-- ===== ANPASSEN: Erinnerungen (Block kopieren für weitere) ===== -->
+  <section>
+    <h2>Unsere Momente</h2>
+
+    <article class="memory">
+      <h3>Unser erstes Date</h3>
+      <time>[Datum]</time>
+      <p>Hier steht ein, zwei Sätze zu dieser Erinnerung.</p>
+      <div class="photo">Foto hier einfügen</div>
+      <!-- Mit Foto: <div class="photo"><img src="foto1.jpg" alt=""></div> -->
+    </article>
+
+    <article class="memory">
+      <h3>Ein lustiger Moment</h3>
+      <time>[Datum]</time>
+      <p>Hier steht ein, zwei Sätze zu dieser Erinnerung.</p>
+      <div class="photo">Foto hier einfügen</div>
+    </article>
+
+    <article class="memory">
+      <h3>Unser Insider-Witz</h3>
+      <time>[Datum]</time>
+      <p>Hier steht ein, zwei Sätze zu dieser Erinnerung.</p>
+      <div class="photo">Foto hier einfügen</div>
+    </article>
+  </section>
+
+  <!-- ===== ANPASSEN: Nachricht ===== -->
+  <section>
+    <h2>Noch etwas…</h2>
+    <div class="letter">
+      <button id="open">Klick mich</button>
+      <p id="message" class="hidden">
+        Hier steht deine persönliche Nachricht an sie.
+      </p>
+    </div>
+  </section>
+
+  <footer>Gemacht mit ♥</footer>
+</main>
+<div class="hearts" id="hearts"></div>
+
+<script>
+  // ===== ANPASSEN: Datum, seit dem ihr zusammen seid (JJJJ-MM-TT) =====
+  const since = new Date("2026-08-01T00:00:00");
+
+  const counter = document.getElementById("counter");
+  function tick() {
+    let s = Math.max(0, Math.floor((Date.now() - since) / 1000));
+    const d = Math.floor(s / 86400); s %= 86400;
+    const h = Math.floor(s / 3600); s %= 3600;
+    const m = Math.floor(s / 60); s %= 60;
+    counter.innerHTML = [[d, "Tage"], [h, "Stunden"], [m, "Minuten"], [s, "Sekunden"]]
+      .map(([n, l]) => `<div><strong>${n}</strong><span>${l}</span></div>`).join("");
+  }
+  tick(); setInterval(tick, 1000);
+
+  document.getElementById("open").addEventListener("click", e => {
+    document.getElementById("message").classList.remove("hidden");
+    e.target.classList.add("hidden");
+    const box = document.getElementById("hearts");
+    for (let i = 0; i < 24; i++) {
+      const h = document.createElement("span");
+      h.textContent = "♥";
+      h.style.left = Math.random() * 100 + "%";
+      h.style.fontSize = 14 + Math.random() * 22 + "px";
+      h.style.animationDelay = Math.random() * 0.8 + "s";
+      box.appendChild(h);
+      setTimeout(() => h.remove(), 3600);
+    }
+  });
+</script>
+</body>
+</html>
